@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@mui/x-charts": "latest",
+    "@mui/x-data-grid": "latest",
+    "@mui/x-data-grid-pro": "latest",
+    "@mui/x-date-pickers": "latest",
+    "@mui/x-date-pickers-pro": "latest",
+    "@mui/x-tree-view": "latest",
+    "@react-spring/web": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "clsx": "latest",
+    "dayjs": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest"
+  },
+  "description": "https://github.com/mui/material-ui/blob/v6.1.2/docs/data/material/templates/dashboard/Dashboard.tsx",
+  "devDependencies": {
+    "react-scripts": "latest"
+  },
+  "main": "index.tsx",
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  }
+}

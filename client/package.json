@@ -10,6 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.1.0",
+    "@mui/icons-material": "^6.1.2",
+    "@mui/material": "^6.1.2",
+    "@mui/x-charts": "latest",
+    "@mui/x-data-grid": "latest",
+    "@mui/x-data-grid-pro": "latest",
+    "@mui/x-date-pickers": "latest",
+    "@mui/x-date-pickers-pro": "latest",
+    "@mui/x-tree-view": "latest",
+    "@react-spring/web": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "clsx": "latest",
+    "dayjs": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "socket.io-client": "^4.8.0"
