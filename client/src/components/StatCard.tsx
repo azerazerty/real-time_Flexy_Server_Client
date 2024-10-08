@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Typography, {
+  TypographyProps,
   TypographyPropsColorOverrides,
 } from "@mui/material/Typography";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
@@ -18,11 +19,16 @@ export type StatCardProps = {
   value: string;
   icon: any;
   price: boolean;
-  color: TypographyOwnProps.color;
+  color: TypographyProps["color"];
   // interval: string;
   // trend: "up" | "down" | "neutral";
   // data: number[];
 };
+
+let USDollar = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
 
 function getDaysInMonth(month: number, year: number) {
   const date = new Date(year, month, 0);
@@ -87,7 +93,6 @@ StatCardProps) {
   // const color = labelColors[trend];
   // const chartColor = trendColors[trend];
   // const trendValues = { up: "+25%", down: "-25%", neutral: "+5%" };
-  console.log(icon);
   return (
     <Card variant="outlined" sx={{ height: "100%", flexGrow: 1 }}>
       <CardContent>
@@ -146,8 +151,12 @@ StatCardProps) {
             <Typography component="h2" variant="subtitle2" gutterBottom>
               {title}
             </Typography>
-            <Paper sx={{ textAlign: "center", p: ".25rem" }} elevation={1}>
-              {!isNaN(parseFloat(value)) ? (
+            <Paper
+              sx={{ textAlign: "center", p: ".25rem" }}
+              elevation={2}
+              variant="elevation"
+            >
+              {price && !isNaN(parseFloat(value)) ? (
                 <>
                   <Typography
                     align="center"
@@ -156,7 +165,7 @@ StatCardProps) {
                     color={color}
                     sx={{ fontWeight: "bold" }}
                   >
-                    {new Intl.NumberFormat().format(parseFloat(value))}
+                    {USDollar.format(parseFloat(value))}
                   </Typography>
                   {price && (
                     <Typography
@@ -166,7 +175,7 @@ StatCardProps) {
                       color={color}
                       sx={{ fontWeight: "bold" }}
                     >
-                      <sub>{` DA`}</sub>
+                      <sub>{` USD`}</sub>
                     </Typography>
                   )}
                 </>

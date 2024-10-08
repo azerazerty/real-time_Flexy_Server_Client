@@ -1,7 +1,8 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, Menu, ipcMain } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import os from "node:os";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -38,6 +39,8 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, "logo.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
+      contextIsolation: true, // Secure environment
+      nodeIntegration: false, // Disable Node integration in the renderer
     },
   });
 
@@ -70,6 +73,27 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+Menu.setApplicationMenu(null);
+
+// Register the IPC handler for 'get-network-info'
+ipcMain.handle("get-network-info", async () => {
+  const networkInterfaces = os.networkInterfaces();
+  const results = [];
+
+  for (const name of Object.keys(networkInterfaces)) {
+    for (const net of networkInterfaces[name]) {
+      if (net.family === "IPv4" && !net.internal) {
+        results.push({ mac: net.mac, ip: net.address });
+      }
+    }
+  }
+  // return results;
+
+  // Fetch public IP using an external API
+  const publicIpResponse = await fetch("https://api.ipify.org?format=json");
+  const publicIpData = await publicIpResponse.json();
+  return { localInfo: results, publicIp: publicIpData.ip };
 });
 
 app.whenReady().then(createWindow);

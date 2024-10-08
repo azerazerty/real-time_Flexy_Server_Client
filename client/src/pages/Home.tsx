@@ -4,15 +4,16 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Copyright from "../internals/components/Copyright";
-import ChartUserByCountry from "./ChartUserByCountry";
-import CustomizedTreeView from "./CustomizedTreeView";
-import CustomizedDataGrid from "./CustomizedDataGrid";
-import HighlightedCard from "./HighlightedCard";
-import PageViewsBarChart from "./PageViewsBarChart";
-import SessionsChart from "./SessionsChart";
-import StatCard, { StatCardProps } from "./StatCard";
+import ChartUserByCountry from "../components/ChartUserByCountry";
+import CustomizedTreeView from "../components/CustomizedTreeView";
+import CustomizedDataGrid from "../components/CustomizedDataGrid";
+import HighlightedCard from "../components/HighlightedCard";
+import PageViewsBarChart from "../components/PageViewsBarChart";
+import SessionsChart from "../components/SessionsChart";
+import StatCard, { StatCardProps } from "../components/StatCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import SimCardIcon from "@mui/icons-material/SimCard";
+import useNetworkInfo from "../hooks/useNetworkInfo"; // Import the custom hook
 
 const data: StatCardProps[] = [
   {
@@ -58,13 +59,16 @@ const data: StatCardProps[] = [
   // },
 ];
 
-export default function MainGrid() {
+export default function Home() {
+  const { networkInfo, loading, error } = useNetworkInfo();
+
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       {/* cards */}
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Overview
+      <Typography component="h5" variant="h5" sx={{ mb: 2 }}>
+        <strong> Overview </strong>
       </Typography>
+
       <Grid
         container
         spacing={4}
@@ -108,6 +112,31 @@ export default function MainGrid() {
       {/* <Grid container spacing={2} columns={12}>
         <CustomizedDataGrid />
       </Grid> */}
+      <Box sx={{ mt: 10 }}>
+        <Typography component="h5" variant="h5">
+          <strong>Device Info: </strong>
+        </Typography>
+        <Typography component="span" sx={{ mb: 2, ml: 2 }}>
+          <>
+            {loading && <p>Loading network information...</p>}
+            {error && <p>Error: {error}</p>}
+            {!loading && !error && (
+              <>
+                <p>
+                  <strong>Public IP Address:</strong> {networkInfo.publicIp}
+                </p>
+                <p>
+                  <strong>MAC Address:</strong> {networkInfo.localInfo[0].mac}
+                </p>
+                <p>
+                  <strong>Local IP Address:</strong>{" "}
+                  {networkInfo.localInfo[0].ip}
+                </p>
+              </>
+            )}
+          </>
+        </Typography>
+      </Box>
       <Copyright sx={{ my: 4 }} />
     </Box>
   );

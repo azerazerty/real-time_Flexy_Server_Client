@@ -6,6 +6,11 @@ import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 
 type SparkLineData = number[];
 
+type DeviceData = {
+  deviceOs: string;
+  deviceIp: string;
+};
+
 function getDaysInMonth(month: number, year: number) {
   const date = new Date(year, month, 0);
   const monthName = date.toLocaleDateString("en-US", {
@@ -121,13 +126,13 @@ export const columns: GridColDef[] = [
     flex: 1,
     minWidth: 100,
   },
-  {
-    field: "conversions",
-    headerName: "Daily Conversions",
-    flex: 1,
-    minWidth: 150,
-    renderCell: renderSparklineCell,
-  },
+  // {
+  //   field: "conversions",
+  //   headerName: "Daily Conversions",
+  //   flex: 1,
+  //   minWidth: 150,
+  //   renderCell: renderSparklineCell,
+  // },
 ];
 
 export const rows: GridRowsProp = [

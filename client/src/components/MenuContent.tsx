@@ -14,9 +14,11 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import ConstructionIcon from "@mui/icons-material/Construction";
 
+import { useLocation, useNavigate } from "react-router-dom";
+
 const mainListItems = [
-  { text: "Home", icon: <HomeRoundedIcon /> },
-  { text: "Manage SIM / USBs", icon: <ConstructionIcon /> },
+  { slug: "home", text: "Home", icon: <HomeRoundedIcon /> },
+  { slug: "manage-sim", text: "Manage SIM / USBs", icon: <ConstructionIcon /> },
 ];
 
 const secondaryListItems = [
@@ -26,12 +28,17 @@ const secondaryListItems = [
 ];
 
 export default function MenuContent() {
+  const location = useLocation();
+  const navigate = useNavigate();
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: "block" }}>
-            <ListItemButton selected={index === 0}>
+            <ListItemButton
+              onClick={() => navigate(item.slug)}
+              selected={location.pathname.includes(item.slug)}
+            >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>

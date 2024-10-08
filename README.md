@@ -7,4 +7,4 @@ update flexy server web hook after receive client socket response
 
 tech stack + libs used in this project :
 server : NodeJs , ExpressJs , SocketIo , axios,
-client : electron, ReactJs , SocketIo-Client , react-Bootstrap v5
+client : electron, ReactJs , SocketIo-Client , MUI v6
