@@ -1,8 +1,11 @@
-import { app, BrowserWindow, Menu, ipcMain } from "electron";
+import { app, BrowserWindow, Menu, ipcMain, screen } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
+
+const DEFAULT_WIDTH = 450; // Set your default width
+const DEFAULT_HEIGHT = 558; // Set your default height
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,13 +32,46 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 
+/////functions
+
+function resizeToFullScreen() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+
+  win.setResizable(false); // Ensure resizing is disabled
+  win.setFullScreen(false); // If in full screen mode, disable it first
+
+  win.setBounds({
+    x: 0,
+    y: 0,
+    width: width, // Set to screen width
+    height: height, // Set to screen height
+  });
+
+  win.setFullScreen(true); // Switch to fullscreen mode
+}
+function resizeToLoginScreen() {
+  win.setResizable(false); // Ensure resizing is disabled
+  win.setFullScreen(false); // Ensure it's not in full screen mode
+
+  win.setBounds({
+    x: (screen.getPrimaryDisplay().workAreaSize.width - DEFAULT_WIDTH) / 2, // Center horizontally
+    y: (screen.getPrimaryDisplay().workAreaSize.height - DEFAULT_HEIGHT) / 2, // Center vertically
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+  });
+}
+
 function createWindow() {
   win = new BrowserWindow({
     darkTheme: true,
     transparent: true,
-    fullscreen: true,
-    fullscreenable: true,
-    resizable: true,
+    // fullscreen: true,
+    // fullscreenable: true,
+    // resizable: true,
+    width: DEFAULT_WIDTH, // Small size for the login page
+    height: DEFAULT_HEIGHT,
+    resizable: false, // Disable resizing
     icon: path.join(process.env.VITE_PUBLIC, "logo.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
@@ -94,6 +130,16 @@ ipcMain.handle("get-network-info", async () => {
   const publicIpResponse = await fetch("https://api.ipify.org?format=json");
   const publicIpData = await publicIpResponse.json();
   return { localInfo: results, publicIp: publicIpData.ip };
+});
+
+// Listener for login success event from the renderer process
+ipcMain.handle("user-logged-in", () => {
+  console.log("login");
+  resizeToFullScreen(); // Resize window after login
+});
+ipcMain.handle("user-logged-out", () => {
+  console.log("login out");
+  resizeToLoginScreen(); // Resize window after login
 });
 
 app.whenReady().then(createWindow);

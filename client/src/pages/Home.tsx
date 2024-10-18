@@ -19,7 +19,7 @@ const data: StatCardProps[] = [
   {
     title: "Total Balance",
     price: true,
-    value: "785300",
+    value: "7856,02",
     color: "success",
     icon: <AccountBalanceWalletIcon color="secondary" fontSize="large" />,
 
@@ -137,7 +137,7 @@ export default function Home() {
           </>
         </Typography>
       </Box>
-      <Copyright sx={{ my: 4 }} />
+      {/* <Copyright sx={{ my: 4 }} /> */}
     </Box>
   );
 }

@@ -13,7 +13,7 @@ import OptionsMenu from "./OptionsMenu";
 import { IconButton } from "@mui/material";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Logo from "../assets/logo.png";
-
+import { useAuth } from "../providers/Auth";
 const drawerWidth = 240;
 
 const Drawer = styled(MuiDrawer)({
@@ -29,6 +29,7 @@ const Drawer = styled(MuiDrawer)({
 const username = "azer azert";
 
 export default function SideMenu() {
+  const { signOut } = useAuth();
   return (
     <Drawer
       variant="permanent"
@@ -109,7 +110,7 @@ export default function SideMenu() {
           </Typography> */}
         </Box>
         {/* <OptionsMenu /> */}
-        <IconButton size="small">
+        <IconButton onClick={() => signOut()} size="small">
           <LogoutRoundedIcon />
         </IconButton>
       </Stack>
